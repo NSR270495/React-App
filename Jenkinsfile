@@ -12,8 +12,8 @@ pipeline {
 
     stage('Build image'){
        steps{
-                    withCredentials([usernamePassword(credentialsId: 'Dockerhub-Credential', passwordVariable: 'Password', usernameVariable: 'Username')]) {
-           sh "sudo docker build -t naveen047/react-app ."
+           withCredentials([usernamePassword(credentialsId: 'Dockerhub-Credential', passwordVariable: 'Password', usernameVariable: 'Username')]) {
+           sh "sudo docker build -S -t naveen047/react-app ."
            }
        }
     }
