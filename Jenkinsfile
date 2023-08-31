@@ -13,7 +13,7 @@ pipeline {
     stage('Build image'){
        steps{
                     withCredentials([usernamePassword(credentialsId: 'Dockerhub-Credential', passwordVariable: 'Password', usernameVariable: 'Username')]) {
-           sh "sudo docker build -t naveen047/react-app"
+           sh "docker build -t naveen047/react-app"
            }
        }
     }
@@ -21,7 +21,7 @@ pipeline {
      stage('Pushing Image'){
        steps{
           withCredentials([usernamePassword(credentialsId: 'Dockerhub-Credential', passwordVariable: 'Password', usernameVariable: 'Username')]) {
-             sh "sudo docker push naveen047/react-app:latest"
+             sh "docker push naveen047/react-app:latest"
           }
        }
      }
