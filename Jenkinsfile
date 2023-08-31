@@ -11,7 +11,7 @@ pipeline {
 
     stage('Checkout Source') {
       steps {
-        git 'https://github.com/NSR270495/React-App.git'
+        git url:'https://github.com/NSR270495/React-App.git', branch:'main'
       }
     }
 
