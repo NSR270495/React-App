@@ -1,9 +1,9 @@
 pipeline {
 
-  environment {
-    dockerimagename = "naveen047/react-app"
-    dockerImage = ""
-  }
+#  environment {
+#    dockerimagename = "naveen047/react-app"
+#    dockerImage = ""
+#  }
 
   agent any
 
@@ -15,26 +15,39 @@ pipeline {
       }
     }
 
-    stage('Build image') {
-      steps{
-        script {
-          dockerImage = docker.build dockerimagename
-        }
-      }
+    stage('Build image'){
+       steps{
+           sh "sudo docker build -t naveen047/react-app"
+       }
     }
+#    stage('Build image') {
+#      steps{
+#        script {
+#          dockerImage = docker.build dockerimagename
+#        }
+#      }
+#    }
 
-    stage('Pushing Image') {
-      environment {
-               registryCredential = 'dockerhub-credentials'
-           }
-      steps{
-        script {
-          docker.withRegistry( 'https://registry.hub.docker.com', registryCredential ) {
-            dockerImage.push("latest")
+     stage('Pushing Image'){
+       steps{
+          withCredentials([usernamePassword(credentialsId: 'Dockerhub-Credential', passwordVariable: 'Password', usernameVariable: 'Username')]) {
+             sh "sudo docker push naveen047/react-app:latest"
           }
-        }
-      }
-    }
+       }
+     }
+
+#    stage('Pushing Image') {
+#      environment {
+#               registryCredential = 'dockerhub-credentials'
+#           }
+#      steps{
+#        script {
+#          docker.withRegistry( 'https://registry.hub.docker.com', registryCredential ) {
+#            dockerImage.push("latest")
+#          }
+#        }
+#      }
+#    }
 
     stage('Deploying React.js container to Kubernetes') {
       steps {
